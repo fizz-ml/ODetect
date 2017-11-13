@@ -12,6 +12,7 @@ with h5py.File(sys.argv[1], 'r') as f:
     print( f.keys() )
     fig, (ax1, ax2) = plt.subplots(2, 1, sharey=True)
     ax1.plot(np.arange(0,15000)/300.0, f['signal']['pleth']['y'][0][0:15000])
+    print(f['signal']['pleth']['y'].shape)
     ax2.plot(np.arange(0,15000)/300.0, f['signal']['co2']['y'][0][0:15000])
     plt.show()
 
