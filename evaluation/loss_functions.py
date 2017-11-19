@@ -3,21 +3,19 @@ import numpy as np
 def CO2_timestamptofreq(X, sample_freq=300):
     """Takes an array of trough index-stamps and returns the frequency, computed using last n time-stamps
     """
-    Y = np.empty((X.shape[0],1))
-    for i in range(X.shape[0]-1):
-        Y[i+1,:] =  (1/sample_freq)*(X[i+1,:] - X[i,:])
+    periods = np.empty_like(X)
+    periods[1:] = np.diff(X) * 1/sample_freq
 
-    Y[0] = Y[1]
-    
-    return np.recriprocal(Y)
+    # For the very first trough assume same period as next one
+    periods[0] = periods[1]
 
+    print(periods)
 
+    return np.reciprocal(periods)
 
 
 def RMSE(Y_, Y):
-    """ Returns root mean squared error between Y_ and Y 
+    """ Returns root mean squared error between Y_ and Y
     """
-    return np.square(Y_- Y).mean()
-
-
+    return np.sqrt(np.square(Y_- Y).mean())
 
