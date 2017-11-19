@@ -5,11 +5,14 @@ import numpy as np
 import os
 import evaluation.loss_functions as loss_functions
 import h5py
+import matplotlib.pyplot as plt
 
 def evaluate_model(model, loss_func, data):
     """ Evaluates the given model with the given loss function on the given sample. """
+    # Max length #TODO: just for testing
+    max_length = 20000
     # Extract signals from the data
-    ppg_signal = np.squeeze(data['signal']['pleth']['y'])
+    ppg_signal = np.squeeze(data['signal']['pleth']['y'][:max_length])
     inhale_idx = np.squeeze(data['labels']['co2']['startinsp']['x'])
     sampling_rate = 300.0 #TODO: Actually extract this
 
@@ -21,6 +24,10 @@ def evaluate_model(model, loss_func, data):
     predictions = np.empty_like(ppg_signal)
     for i, x in enumerate(ppg_signal):
         predictions[i] = model(x)
+
+    plt.plot(np.arange(predictions.shape[0]), predictions)
+    plt.plot(inhale_idx, rr_label)
+    plt.show()
 
     # Extract predictions at the peaks
     sampled_predictions = predictions[inhale_idx.astype(np.int32)]
@@ -50,7 +57,7 @@ if __name__ == "__main__":
     input_path = os.path.join('data', dataset_name, 'raw')
 
     # Instantiate model
-    hyperparams = 60
+    hyperparams = 1200
     model = SFFTModel(hyperparams)
 
     # Evaluate
