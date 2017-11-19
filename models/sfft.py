@@ -7,12 +7,16 @@ class SFFTModel(model.Model):
     def __init__(self,window_size):
         self.window_size = window_size
         self._buffer = np.zeros(window_size)
+        self._max_freq = 0.6
+        self._min_freq = 0.05
 
     def __call__(self,x):
         """Return the next predicted point"""
         self._update_buffer(x)
         b = self._get_buffer()
-        fft_bin = np.argmax(np.abs(fft.fft(b)))
+        max_bin = np.ceil(self._max_freq / SAMPLING_RATE * self.window_size).astype(np.int32)
+        min_bin = np.floor(self._min_freq / SAMPLING_RATE * self.window_size).astype(np.int32)
+        fft_bin = np.argmax(np.abs(fft.fft(b))[min_bin:max_bin]) + min_bin
         y = fft_bin * SAMPLING_RATE / self.window_size
         return y
 

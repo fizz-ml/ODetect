@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 def evaluate_model(model, loss_func, data):
     """ Evaluates the given model with the given loss function on the given sample. """
     # Max length #TODO: just for testing
-    max_length = 20000
+    max_length = 40000
     # Extract signals from the data
     ppg_signal = np.squeeze(data['signal']['pleth']['y'][:max_length])
     inhale_idx = np.squeeze(data['labels']['co2']['startinsp']['x'])
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     input_path = os.path.join('data', dataset_name, 'raw')
 
     # Instantiate model
-    hyperparams = 1200
+    hyperparams = 18000
     model = SFFTModel(hyperparams)
 
     # Evaluate

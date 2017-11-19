@@ -1,5 +1,5 @@
-import torch
 import numpy as np
+
 def CO2_timestamptofreq(X, sample_freq=300):
     """Takes an array of trough index-stamps and returns the frequency, computed using last n time-stamps
     """
