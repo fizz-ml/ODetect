@@ -10,8 +10,12 @@ from scipy.fftpack import fft, ifft
 # mat_dict = scipy.io.loadmat(sys.argv[1])
 with h5py.File(sys.argv[1], 'r') as f:
     print( f.keys() )
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharey=True)
+    # fig, (ax1, ax2) = plt.subplots(2, 1, sharey=True)
+    fig, (ax1) = plt.subplots(1, 1, sharey=True)
     ax1.plot(np.arange(0,15000)/300.0, f['signal']['pleth']['y'][0][0:15000])
+    plt.xlabel('Time in s')
+    plt.ylabel('PPG')
+    plt.show()
     print(f['signal']['pleth']['y'].shape)
     ax2.plot(np.arange(0,15000)/300.0, f['signal']['co2']['y'][0][0:15000])
     plt.show()
@@ -39,6 +43,7 @@ with h5py.File(sys.argv[1], 'r') as f:
     plt.ylabel('Freq in Hz')
     ax1.set_title('co2')
     ax1.pcolormesh(t, freq[0:80], np.abs(Zxx[0:80]), cmap="jet")
+    plt.show()
 
     freq, t, Zxx = signal.stft(f['signal']['pleth']['y'][0][0:1500000], 300.0, nperseg=10000)
     print(freq[0:100],t)

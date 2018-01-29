@@ -42,6 +42,7 @@ def evaluate_dataset(model, loss_func, dataset_path):
             loss = evaluate_model(model, loss_func, f)
             evals.append(loss)
             print(loss)
+            print(sample_path)
     return sum(evals)
 
 
