@@ -9,13 +9,20 @@ import matplotlib.pyplot as plt
 import scipy.signal as signal
 from preprocess.features import calc_co2_troughs
 
+"""
+Visualizes the short time fourier transform of the signal.
+Produces graphs for each signal in the specified dataset.
+The graphs are composed of one plot of the ppg and co2 waveforms and one plot of the 2D STFT spectrogram.
+Red points on the spectrogram correspond to the equivalent instantaneous frequency derived from the labels.
+"""
+
 def visualize_dataset(dataset_path):
     for sample_path in glob(os.path.join(dataset_path, '*.mat')):
+        print(sample_path)
         with h5py.File(sample_path, 'r') as data:
             max_length = 140000
             ppg_signal = np.squeeze(data['signal']['pleth']['y'][0:max_length])[0:max_length]
             inhale_idx = np.squeeze(data['labels']['co2']['startinsp']['x'])
-            print(ppg_signal.shape)
 
             # Plot
             fig, [ax1, ax2] = plt.subplots(2,1)
@@ -39,7 +46,6 @@ def visualize_dataset(dataset_path):
             # Time
             co2segment = data['signal']['co2']['y'][0][0:max_length]
             time = np.arange(0,max_length)/sample_freq
-            print(time.shape)
             ax1.plot(time, co2segment)
             ax1.plot(time, ppg_signal)
 
