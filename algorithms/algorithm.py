@@ -1,4 +1,4 @@
-class Model(object):
+class Algorithm(object):
     def __call__(x):
         """Return the next predicted point"""
         raise NotImplementedError

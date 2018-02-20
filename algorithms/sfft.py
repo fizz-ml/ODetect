@@ -1,9 +1,9 @@
-import models.model as model
+import algorithms.algorithm as algorithm
 import scipy.fftpack as fft
 import numpy as np
 
 SAMPLING_RATE = 300.0
-class SFFTModel(model.Model):
+class SFFTModel(algorithm.Algorithm):
     def __init__(self,window_size):
         self.window_size = window_size
         self._buffer = np.zeros(window_size)
@@ -23,7 +23,6 @@ class SFFTModel(model.Model):
     def reset():
         """Reset the model"""
         self._buffer = np.zeros(window_size)
-        self._buffer_point = 0
 
     def _update_buffer(self,x):
         self._buffer = np.roll(self._buffer,1)
