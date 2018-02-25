@@ -1,4 +1,5 @@
-from models.sfft import SFFTModel
+#from models.sfft import SFFTModel
+from models.rrestbest import RRESTModel
 import argparse
 from glob import glob
 import numpy as np
@@ -59,7 +60,8 @@ if __name__ == "__main__":
 
     # Instantiate model
     hyperparams = 18000
-    model = SFFTModel(hyperparams)
+    #model = SFFTModel(hyperparams)
+    model = RRESTModel(80,0.02,0.05)
 
     # Evaluate
     print(evaluate_dataset(model, loss_functions.RMSE, input_path))
